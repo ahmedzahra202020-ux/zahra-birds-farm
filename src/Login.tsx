@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   GoogleAuthProvider,
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
 } from "firebase/auth";
 
 import { auth } from "./firebase";
@@ -10,28 +9,16 @@ import { auth } from "./firebase";
 const provider = new GoogleAuthProvider();
 
 const Login = () => {
-  useEffect(() => {
-    const checkLogin = async () => {
-      try {
-        const result = await getRedirectResult(auth);
-
-        if (result?.user) {
-          localStorage.setItem("user", JSON.stringify(result.user));
-
-          window.location.href = "/";
-        }
-      } catch (error: any) {
-        console.error(error);
-        alert(error.message);
-      }
-    };
-
-    checkLogin();
-  }, []);
 
   const handleLogin = async () => {
     try {
-      await signInWithRedirect(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+
+      if (result.user) {
+        localStorage.setItem("user", JSON.stringify(result.user));
+
+        window.location.href = "/";
+      }
     } catch (error: any) {
       console.error(error);
       alert(error.message);
