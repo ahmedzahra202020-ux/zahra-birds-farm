@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import {
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 
 import { auth } from "./firebase";
@@ -10,17 +12,24 @@ const provider = new GoogleAuthProvider();
 
 const Login = () => {
 
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result?.user) {
+          console.log("Logged in:", result.user);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error.message);
+      });
+  }, []);
+
   const handleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
-
-      if (result.user) {
-        localStorage.setItem("user", JSON.stringify(result.user));
-
-        window.location.href = "/";
-      }
+      await signInWithRedirect(auth, provider);
     } catch (error: any) {
-      console.error(error);
+      console.log(error);
       alert(error.message);
     }
   };
@@ -45,7 +54,9 @@ const Login = () => {
           maxWidth: "400px",
         }}
       >
-        <h1 style={{ color: "white" }}>🐦 مزرعة زهرة للطيور</h1>
+        <h1 style={{ color: "white" }}>
+          🐦 مزرعة زهرة للطيور
+        </h1>
 
         <button
           onClick={handleLogin}
