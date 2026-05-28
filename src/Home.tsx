@@ -1,12 +1,6 @@
 import React from "react";
-import { signOut } from "firebase/auth";
-import { auth } from "./firebase";
 
 const Home = () => {
-  const logout = async () => {
-    await signOut(auth);
-  };
-
   return (
     <div
       style={{
@@ -21,7 +15,7 @@ const Home = () => {
       <p>تم تسجيل الدخول بنجاح 🔥</p>
 
       <button
-        onClick={logout}
+        type="button"
         style={{
           marginTop: "20px",
           padding: "12px 20px",
@@ -32,7 +26,7 @@ const Home = () => {
           cursor: "pointer",
         }}
       >
-        تسجيل الخروج
+        اصطياد الحيوانات الأليفة
       </button>
     </div>
   );
