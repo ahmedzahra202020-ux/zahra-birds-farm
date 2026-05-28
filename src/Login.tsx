@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import {
   GoogleAuthProvider,
   signInWithRedirect,
-  getRedirectResult,
 } from "firebase/auth";
 
 import { auth } from "./firebase";
@@ -12,24 +11,11 @@ const provider = new GoogleAuthProvider();
 
 const Login = () => {
 
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result?.user) {
-          console.log("Logged in:", result.user);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        alert(error.message);
-      });
-  }, []);
-
   const handleLogin = async () => {
     try {
       await signInWithRedirect(auth, provider);
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
       alert(error.message);
     }
   };
