@@ -1,35 +1,82 @@
-import { initializeApp } from "firebase/app";
+import React, { useEffect } from "react";
 
 import {
-  getAuth,
-  setPersistence,
-  browserLocalPersistence,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 
-import { getFirestore } from "firebase/firestore";
+import { auth } from "./firebase";
 
-import { getStorage } from "firebase/storage";
+const provider = new GoogleAuthProvider();
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCInodIQto8JteU2PzOr1YYmE_3wEDbxw4",
+const Login = () => {
 
-  authDomain: "zahra-birds-farm.firebaseapp.com",
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result?.user) {
+          console.log("Logged in:", result.user);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error.message);
+      });
+  }, []);
 
-  projectId: "zahra-birds-farm",
+  const handleLogin = async () => {
+    try {
+      await signInWithRedirect(auth, provider);
+    } catch (error: any) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
 
-  storageBucket: "zahra-birds-farm.firebasestorage.app",
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#0f172a",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          background: "#1e293b",
+          padding: "40px",
+          borderRadius: "20px",
+          textAlign: "center",
+          width: "90%",
+          maxWidth: "400px",
+        }}
+      >
+        <h1 style={{ color: "white" }}>
+          🐦 مزرعة زهرة للطيور
+        </h1>
 
-  messagingSenderId: "849195604605",
-
-  appId: "1:849195604605:web:b0a7267ee96409ef672f14",
+        <button
+          onClick={handleLogin}
+          style={{
+            marginTop: "20px",
+            width: "100%",
+            padding: "15px",
+            border: "none",
+            borderRadius: "12px",
+            background: "#2563eb",
+            color: "white",
+            fontSize: "18px",
+            cursor: "pointer",
+          }}
+        >
+          تسجيل الدخول بجوجل
+        </button>
+      </div>
+    </div>
+  );
 };
 
-const app = initializeApp(firebaseConfig);
-
-export const auth = getAuth(app);
-
-setPersistence(auth, browserLocalPersistence);
-
-export const db = getFirestore(app);
-
-export const storage = getStorage(app);
+export default Login;
