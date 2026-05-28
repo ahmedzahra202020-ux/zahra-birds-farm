@@ -11,17 +11,17 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyCInodIQto8JteU2PzOr1YYmE_3wEDbxw4",
 
-  authDomain: "zahra-birds-farm-f2481.firebaseapp.com",
+  authDomain: "zahra-birds-farm.firebaseapp.com",
 
-  projectId: "zahra-birds-farm-f2481",
+  projectId: "zahra-birds-farm",
 
-  storageBucket: "zahra-birds-farm-f2481.appspot.com",
+  storageBucket: "zahra-birds-farm.firebasestorage.app",
 
-  messagingSenderId: "YOUR_SENDER_ID",
+  messagingSenderId: "849195604605",
 
-  appId: "YOUR_APP_ID",
+  appId: "1:849195604605:web:b0a7267ee96409ef672f14",
 };
 
 const app = initializeApp(firebaseConfig);
